@@ -1,3 +1,6 @@
 #ignore API keys
 .env
 .env*
+
+#ignore Node.js modules 
+node_modules/
