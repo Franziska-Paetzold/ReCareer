@@ -7,14 +7,32 @@ To run this project locally, follow these steps:
 ### 1️⃣ Install dependencies (one-time setup)
 Before starting the application, install all necessary dependencies.
 
-#### 1️⃣.1️⃣ Backend Setup
+#### 1.1. Dependencies
+Run this in your project root directory (recareer/):
+```
+npm install --prefix backend express cors dotenv openai
+npm install --prefix backend --save-dev nodemon
+npm install --prefix frontend
+```
+
+| Dependency       | Used in  | Purpose |
+|-----------------|---------|---------|
+| `express`       | Backend  | Creates the API server |
+| `cors`         | Backend  | Enables CORS for frontend-backend communication |
+| `dotenv`       | Backend  | Loads environment variables from `.env` |
+| `openai`       | Backend  | Connects to the OpenAI API |
+| `nodemon` (dev) | Backend  | Automatically restarts the server on file changes |
+| Frontend dependencies | Frontend  | Installs all dependencies from `package.json` in the frontend |
+
+
+#### 1.2. Backend Setup
 Navigate to the backend directory and install the required Node.js packages:
 ```
 cd recareer/backend
 npm install
 ```
 
-#### 1️⃣.2️⃣ Frontend Setup
+#### 1.3. Frontend Setup
 Navigate to the main project directory and install the required packages for the frontend
 ```
 cd recareer
@@ -24,14 +42,14 @@ npm install
 ### 2️⃣ Start the application
 Once all dependencies are installed, start both the backend and frontend.
 
-#### 2️⃣.1️⃣ Start the backend
+#### 2.1. Start the backend
 Open a terminal and run:
 ```
 cd recareer/backend
 node server.js
 ```
 
-#### 2️⃣.2️⃣ Start the frontend
+#### 2.2. Start the frontend
 In a new (/another) terminal window, run:
 ```
 cd recareer
@@ -71,12 +89,3 @@ The project follows a simple structure:
 ### 🛠 Technologies Used
 Frontend: React, Vite, JavaScript
 Backend: Node.js, Express, OpenAI API
-
-## React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
