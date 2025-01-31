@@ -7,7 +7,7 @@ export default function JobPreferencesForm() {
         mit_menschen_arbeiten: false,
     });
     const [responseMessage, setResponseMessage] = useState("");
-    
+
     const handleCheckboxChange = (event) => {
         const { name, checked } = event.target;
         setPreferences((prev) => ({ ...prev, [name]: checked }));
@@ -15,19 +15,22 @@ export default function JobPreferencesForm() {
 
     const onSubmit = async (event) => {
         event.preventDefault();
-        const selectedPreferences = Object.keys(preferences).filter(key => preferences[key]);
+        const selectedPreferences = Object.keys(preferences).filter((key) => preferences[key]);
 
         try {
-            const response = await fetch("http://localhost:3001/api/openai", {
+            const response = await fetch("https://recareer-backend.vercel.app/api/openai", {  // Vercel Backend URL
                 method: "POST",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ preferences: selectedPreferences }),
-                headers: { "Content-type": "application/json" },
             });
+
+            if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
 
             const data = await response.json();
             setResponseMessage(data.message);
         } catch (error) {
-            console.error("Error during form submission: ", error);
+            console.error("Fehler bei der Anfrage:", error);
+            setResponseMessage("Es gab ein Problem mit der Anfrage. Bitte versuche es später erneut.");
         }
     };
 
