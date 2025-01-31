@@ -30,4 +30,5 @@ app.post("/api/openai", async (req, res) => {
     }
 });
 
-app.listen(3001, () => console.log("Backend läuft auf Port 3001"));
+// Export für Vercel als Serverless Function
+export default app;
