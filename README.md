@@ -89,3 +89,8 @@ The project follows a simple structure:
 ### 🛠 Technologies Used
 Frontend: React, Vite, JavaScript
 Backend: Node.js, Express, OpenAI API
+
+### 🚀 Automatic Deployments via Vercel  
+By default, Vercel automatically triggers a new deployment for every commit.  
+To **prevent deployments for minor changes**, simply include `"skip deploy"` in your commit message.  
+
