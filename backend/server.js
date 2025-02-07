@@ -7,7 +7,11 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: process.env.FRONTEND_URL,  
+    methods: ["POST"],
+    allowedHeaders: ["Content-Type"],
+}));
 
 
 const openai = new OpenAI({
