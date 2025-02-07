@@ -18,11 +18,12 @@ export default function JobPreferencesForm() {
         const selectedPreferences = Object.keys(preferences).filter(key => preferences[key]);
 
         try {
-            const response = await fetch("http://localhost:3001/api/openai", {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/openai`, {
                 method: "POST",
-                body: JSON.stringify({ preferences: selectedPreferences }),
-                headers: { "Content-type": "application/json" },
-            });
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ preferences }),
+            })
+         
 
             const data = await response.json();
             setResponseMessage(data.message);
