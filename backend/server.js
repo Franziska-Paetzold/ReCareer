@@ -1,6 +1,6 @@
+import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import OpenAI from "openai";
 
 dotenv.config();
@@ -8,6 +8,14 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+// Debugging: Logge, wenn das Backend gestartet wird
+console.log("✅ Backend wurde gestartet!");
+
+// Debugging: Test-Route für /api/test
+app.get("/api/test", (req, res) => {
+    res.json({ message: "Backend läuft! 🎉" });
+});
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
@@ -25,10 +33,10 @@ app.post("/api/openai", async (req, res) => {
 
         res.json({ message: completion.choices[0].message.content });
     } catch (error) {
-        console.error(error);
+        console.error("❌ OpenAI API Fehler:", error.response ? error.response.data : error.message);
         res.status(500).json({ message: "Fehler bei der OpenAI-Anfrage" });
     }
 });
 
-// Export für Vercel als Serverless Function
+// ✅ WICHTIG für Vercel: Kein `app.listen()`, sondern `export default app`
 export default app;
