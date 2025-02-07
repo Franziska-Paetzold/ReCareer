@@ -12,9 +12,8 @@ app.use(cors());
 // Debugging: Logge, wenn das Backend gestartet wird
 console.log("✅ Backend wurde gestartet!");
 
-// Debugging: Test-Route für /api/test
-app.get("/api/test", (req, res) => {
-    res.json({ message: "Backend läuft! 🎉" });
+app.get("/debug", (req, res) => {
+    res.json({ message: "Server läuft!", routes: app._router.stack.map(r => r.route?.path).filter(Boolean) });
 });
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
