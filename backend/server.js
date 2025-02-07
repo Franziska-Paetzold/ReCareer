@@ -9,7 +9,12 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,  // Your OpenAI API Key "sk..."
+    organization: process.env.OPENAI_ORG_ID,  // Your Organization ID "org-..."
+    project: process.env.OPENAI_PROJECT_ID,  // Your Project ID "proj_..."
+});
 
 app.post("/api/openai", async (req, res) => {
     const { preferences } = req.body;
