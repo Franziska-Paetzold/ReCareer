@@ -13,14 +13,14 @@ app.use(cors({
     allowedHeaders: ["Content-Type"],
 }));
 
-
 const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,  // Your OpenAI API Key "sk..."
-    organization: process.env.OPENAI_ORG_ID,  // Your Organization ID "org-..."
-    project: process.env.OPENAI_PROJECT_ID,  // Your Project ID "proj_..."
+    apiKey: process.env.OPENAI_API_KEY,
+    organization: process.env.OPENAI_ORG_ID,
+    project: process.env.OPENAI_PROJECT_ID,
 });
 
 app.post("/api/openai", async (req, res) => {
+    console.log("🔹 Anfrage an /api/openai erhalten");
     const { preferences } = req.body;
 
     try {
@@ -32,11 +32,13 @@ app.post("/api/openai", async (req, res) => {
             ],
         });
 
+        console.log("✅ OpenAI-Antwort:", completion.choices[0].message.content);
         res.json({ message: completion.choices[0].message.content });
     } catch (error) {
-        console.error(error);
+        console.error("❌ Fehler bei OpenAI-Anfrage:", error);
         res.status(500).json({ message: "Fehler bei der OpenAI-Anfrage" });
     }
 });
 
+l
 export default app;
