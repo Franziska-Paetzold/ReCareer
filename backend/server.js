@@ -39,4 +39,4 @@ app.post("/api/openai", async (req, res) => {
     }
 });
 
-app.listen(3001, () => console.log("Backend läuft auf Port 3001"));
+export default app;
