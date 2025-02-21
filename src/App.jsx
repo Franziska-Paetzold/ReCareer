@@ -7,7 +7,7 @@ export default function JobPreferencesForm() {
         mit_menschen_arbeiten: false,
     });
     const [responseMessage, setResponseMessage] = useState("");
-    
+
     const handleCheckboxChange = (event) => {
         const { name, checked } = event.target;
         setPreferences((prev) => ({ ...prev, [name]: checked }));
@@ -21,14 +21,13 @@ export default function JobPreferencesForm() {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/api/openai`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ preferences }),
-            })
-         
+                body: JSON.stringify({ preferences: selectedPreferences }),  // ✅ Fix: Correctly send selected preferences
+            });
 
             const data = await response.json();
             setResponseMessage(data.message);
         } catch (error) {
-            console.error("Error during form submission: ", error);
+            console.error("❌ Error during form submission: ", error);
         }
     };
 
