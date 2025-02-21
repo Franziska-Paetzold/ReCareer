@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-//as vercel reads the environment variables as sting (= with ""), the following removes the ""
+//as vercel reads the environment variables as sting (= with ""), the following removes the quotes (="")
 const API_URL = (import.meta.env.VITE_API_URL || "https://recareer-backend.vercel.app").replace(/"/g, "");
 
 export default function JobPreferencesForm() {
