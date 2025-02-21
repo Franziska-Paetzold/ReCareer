@@ -6,6 +6,7 @@ export default function JobPreferencesForm() {
         kreativitaet: false,
         mit_menschen_arbeiten: false,
     });
+
     const [responseMessage, setResponseMessage] = useState("");
 
     const handleCheckboxChange = (event) => {
@@ -18,13 +19,26 @@ export default function JobPreferencesForm() {
         const selectedPreferences = Object.keys(preferences).filter(key => preferences[key]);
 
         try {
-            console.log("VITE_API_URL:", import.meta.env.VITE_API_URL); // Debugging
+            console.log("🟡 Sending request to API:", `${import.meta.env.VITE_API_URL || "https://recareer-backend.vercel.app"}/api/openai`);
+            console.log("🟡 Payload:", JSON.stringify({ preferences: selectedPreferences }));
+
             const response = await fetch(`${import.meta.env.VITE_API_URL || "https://recareer-backend.vercel.app"}/api/openai`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ preferences: selectedPreferences }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Server error: ${response.status}`);
+            }
 
             const data = await response.json();
+            console.log("✅ API Response:", data);
+
             setResponseMessage(data.message);
         } catch (error) {
             console.error("❌ Error during form submission: ", error);
+            setResponseMessage("Fehler beim Abrufen der Daten. Bitte versuchen Sie es erneut.");
         }
     };
 
