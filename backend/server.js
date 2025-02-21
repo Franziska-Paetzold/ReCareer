@@ -8,7 +8,7 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-// ✅ Fix: Ensure CORS allows frontend
+// ✅ Allow CORS for frontend
 app.use(cors({
     origin: process.env.FRONTEND_URL || "https://recareer-frontend.vercel.app",
     methods: ["POST"],
@@ -16,17 +16,19 @@ app.use(cors({
     credentials: true
 }));
 
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-    organization: process.env.OPENAI_ORG_ID,
-    project: process.env.OPENAI_PROJECT_ID,
+// ✅ Define a GET route to verify deployment works
+app.get("/api/health", (req, res) => {
+    res.json({ status: "Backend is running 🚀" });
 });
 
-// ✅ Ensure `/api/openai` is defined
+// ✅ Ensure `/api/openai` route is reachable
 app.post("/api/openai", async (req, res) => {
-    console.log("🔹 Request received at /api/openai");
+    console.log("🔹 Received request at /api/openai");
 
     const { preferences } = req.body;
+    if (!preferences || !Array.isArray(preferences)) {
+        return res.status(400).json({ message: "Invalid request data" });
+    }
 
     try {
         const completion = await openai.chat.completions.create({
@@ -45,11 +47,11 @@ app.post("/api/openai", async (req, res) => {
     }
 });
 
-// ✅ Important: Properly start the server
+// ✅ Start the server correctly
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
 });
 
-// ✅ Critical: Export the app for Vercel
+// ✅ Ensure export for Vercel
 export default app;
