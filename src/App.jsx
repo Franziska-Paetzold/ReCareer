@@ -18,11 +18,8 @@ export default function JobPreferencesForm() {
         const selectedPreferences = Object.keys(preferences).filter(key => preferences[key]);
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/openai`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ preferences: selectedPreferences }),  // ✅ Fix: Correctly send selected preferences
-            });
+            console.log("VITE_API_URL:", import.meta.env.VITE_API_URL); // Debugging
+            const response = await fetch(`${import.meta.env.VITE_API_URL || "https://recareer-backend.vercel.app"}/api/openai`, {
 
             const data = await response.json();
             setResponseMessage(data.message);
