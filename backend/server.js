@@ -8,7 +8,7 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-// ✅ CORS FIX: Allow requests from frontend
+// ✅ FIX CORS: Ensure frontend is allowed
 app.use(cors({
     origin: process.env.FRONTEND_URL || "https://recareer-frontend.vercel.app",
     methods: ["POST"],
@@ -21,10 +21,10 @@ const openai = new OpenAI({
     project: process.env.OPENAI_PROJECT_ID,
 });
 
-// ✅ Make sure this route exists
+// ✅ Ensure this route is correctly registered
 app.post("/api/openai", async (req, res) => {
     console.log("🔹 Request received at /api/openai");
-    
+
     const { preferences } = req.body;
 
     try {
@@ -36,12 +36,18 @@ app.post("/api/openai", async (req, res) => {
             ],
         });
 
-        console.log("✅ OpenAI-Antwort:", completion.choices[0].message.content);
+        console.log("✅ OpenAI Response:", completion.choices[0].message.content);
         res.json({ message: completion.choices[0].message.content });
     } catch (error) {
-        console.error("❌ Fehler bei OpenAI-Anfrage:", error);
-        res.status(500).json({ message: "Fehler bei der OpenAI-Anfrage" });
+        console.error("❌ OpenAI API Error:", error);
+        res.status(500).json({ message: "Error contacting OpenAI API" });
     }
 });
 
-// ✅
+// ✅ Ensure the backend server starts
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+});
+
+export default app;
