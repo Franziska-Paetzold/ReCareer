@@ -8,11 +8,12 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-// ✅ FIX CORS: Ensure frontend is allowed
+// ✅ Fix: Ensure CORS allows frontend
 app.use(cors({
     origin: process.env.FRONTEND_URL || "https://recareer-frontend.vercel.app",
     methods: ["POST"],
     allowedHeaders: ["Content-Type"],
+    credentials: true
 }));
 
 const openai = new OpenAI({
@@ -21,7 +22,7 @@ const openai = new OpenAI({
     project: process.env.OPENAI_PROJECT_ID,
 });
 
-// ✅ Ensure this route is correctly registered
+// ✅ Ensure `/api/openai` is defined
 app.post("/api/openai", async (req, res) => {
     console.log("🔹 Request received at /api/openai");
 
@@ -44,10 +45,11 @@ app.post("/api/openai", async (req, res) => {
     }
 });
 
-// ✅ Ensure the backend server starts
+// ✅ Important: Properly start the server
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
 });
 
+// ✅ Critical: Export the app for Vercel
 export default app;

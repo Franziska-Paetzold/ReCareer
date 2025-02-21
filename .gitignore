@@ -38,3 +38,4 @@ pnpm-lock.yaml
 *.sln
 *.sw?
 Thumbs.db
+.vercel
