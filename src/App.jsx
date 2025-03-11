@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 
-const API_URL = (import.meta.env.VITE_API_URL || "https://recareer-backend.vercel.app").replace(/"/g, "");
-console.log(API_URL);
-
 export default function JobPreferencesForm() {
     const [preferences, setPreferences] = useState({
         IT: false,
@@ -22,10 +19,11 @@ export default function JobPreferencesForm() {
         const selectedPreferences = Object.keys(preferences).filter(key => preferences[key]);
 
         try {
-            console.log("🟡 Sending request to API:", `${API_URL}/api/openai`);
+            console.log("🟡 VITE_API_URL:", import.meta.env.VITE_API_URL);
+            console.log("🟡 Sending request to API:", `${import.meta.env.VITE_API_URL}/api/openai`);
             console.log("🟡 Payload:", JSON.stringify({ preferences: selectedPreferences }));
 
-            const response = await fetch(`${API_URL}/api/openai`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/openai`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ preferences: selectedPreferences }),
@@ -51,7 +49,12 @@ export default function JobPreferencesForm() {
             <form onSubmit={onSubmit}>
                 {["IT", "kreativitaet", "mit_menschen_arbeiten"].map((key) => (
                     <label key={key}>
-                        <input type="checkbox" name={key} checked={preferences[key]} onChange={handleCheckboxChange} />
+                        <input 
+                            type="checkbox" 
+                            name={key} 
+                            checked={preferences[key]} 
+                            onChange={handleCheckboxChange} 
+                        />
                         {key === "kreativitaet" ? "Kreativität" : key.replace("_", " ")}
                     </label>
                 ))}
@@ -63,5 +66,11 @@ export default function JobPreferencesForm() {
 }
 
 const styles = {
-    container: { maxWidth: "400px", margin: "auto", padding: "20px", textAlign: "center" }
+    container: { 
+        maxWidth: "400px", 
+        margin: "auto", 
+        padding: "20px", 
+        textAlign: "center" 
+    }
 };
+

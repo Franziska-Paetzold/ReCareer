@@ -3,13 +3,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 import OpenAI from "openai";
 
-//as vercel reads the environment variables as sting (= with ""), the following removes the ""
-process.env.OPENAI_API_KEY = process.env.OPENAI_API_KEY.replace(/"/g, '');
-process.env.OPENAI_ORG_ID = process.env.OPENAI_ORG_ID.replace(/"/g, '');
-process.env.OPENAI_PROJECT_ID = process.env.OPENAI_PROJECT_ID.replace(/"/g, '');
-process.env.FRONTEND_URL = process.env.FRONTEND_URL.replace(/"/g, '');
-console.log(FRONTEND_URL);
-
 dotenv.config();
 
 const app = express();  // ✅ Hier wird app initialisiert!
