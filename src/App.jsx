@@ -6,8 +6,9 @@ export default function JobPreferencesForm() {
         kreativitaet: false,
         mit_menschen_arbeiten: false,
     });
+
     const [responseMessage, setResponseMessage] = useState("");
-    
+
     const handleCheckboxChange = (event) => {
         const { name, checked } = event.target;
         setPreferences((prev) => ({ ...prev, [name]: checked }));
@@ -18,16 +19,27 @@ export default function JobPreferencesForm() {
         const selectedPreferences = Object.keys(preferences).filter(key => preferences[key]);
 
         try {
-            const response = await fetch("http://localhost:3001/api/openai", {
+            console.log("🟡 VITE_API_URL:", import.meta.env.VITE_API_URL);
+            console.log("🟡 Sending request to API:", `${import.meta.env.VITE_API_URL}/api/openai`);
+            console.log("🟡 Payload:", JSON.stringify({ preferences: selectedPreferences }));
+
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/openai`, {
                 method: "POST",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ preferences: selectedPreferences }),
-                headers: { "Content-type": "application/json" },
             });
 
+            if (!response.ok) {
+                throw new Error(`Server error: ${response.status}`);
+            }
+
             const data = await response.json();
+            console.log("✅ API Response:", data);
+
             setResponseMessage(data.message);
         } catch (error) {
-            console.error("Error during form submission: ", error);
+            console.error("❌ Error during form submission: ", error);
+            setResponseMessage("Fehler beim Abrufen der Daten. Bitte versuchen Sie es erneut.");
         }
     };
 
@@ -37,7 +49,12 @@ export default function JobPreferencesForm() {
             <form onSubmit={onSubmit}>
                 {["IT", "kreativitaet", "mit_menschen_arbeiten"].map((key) => (
                     <label key={key}>
-                        <input type="checkbox" name={key} checked={preferences[key]} onChange={handleCheckboxChange} />
+                        <input 
+                            type="checkbox" 
+                            name={key} 
+                            checked={preferences[key]} 
+                            onChange={handleCheckboxChange} 
+                        />
                         {key === "kreativitaet" ? "Kreativität" : key.replace("_", " ")}
                     </label>
                 ))}
@@ -49,5 +66,11 @@ export default function JobPreferencesForm() {
 }
 
 const styles = {
-    container: { maxWidth: "400px", margin: "auto", padding: "20px", textAlign: "center" }
+    container: { 
+        maxWidth: "400px", 
+        margin: "auto", 
+        padding: "20px", 
+        textAlign: "center" 
+    }
 };
+

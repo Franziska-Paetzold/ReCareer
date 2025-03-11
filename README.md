@@ -57,17 +57,34 @@ npm run dev
 ```
 🔹 This starts the frontend on port 5173.
 
-### ⚠️ Missing `.env` File  
-The `.env` file is not included in this repository for security reasons.  
-To use the OpenAI API, you need to create a `.env` file manually in the **`backend/`** directory and add the following environment variables:
+### ⚠️ Missing `.env` Files
+The `.env` files are not included in this repository for security reasons.  
+To use the OpenAI API and connect the frontend to the backend, you need to create **two separate `.env` files** in the respective directories.
+
+---
+
+#### **✅ 1. Backend: Create `.env` in `backend/`**
+Create a `.env` file inside the `backend/` directory and add the following environment variables:
 
 ```
 OPENAI_API_KEY=your-api-key-here # Your Project API Key (sk-proj-...) 
 OPENAI_ORG_ID=your-organization-id # Your Organization ID (org-...) 
 OPENAI_PROJECT_ID=your-project-id # Your Project ID (proj-...)
+FRONTEND_URL=https//:your-fontend-id # Your Frontend Domain
 ```
-🔹 Important: Without this file, the backend cannot connect to OpenAI.
-🔹 Ensure that .env is listed in your .gitignore file to prevent accidental leaks.
+🔹 Without this file, the backend cannot connect to OpenAI.
+🔹 Ensure that .env is listed in .gitignore to prevent accidental leaks.
+
+#### **✅ 2. Frontend: Create `.env` in `frontend/`**
+Create a .env file inside the frontend/ directory and add:
+
+```
+VITE_API_URL=https://your-backend-domain
+
+```
+🔹 This ensures that the frontend correctly connects to the deployed backend.
+🔹 VITE variables must start with VITE_ to be accessible in the frontend.
+
 
 ### ✅ Ready to go!
 Once both the backend and frontend are running, open your browser and go to:
